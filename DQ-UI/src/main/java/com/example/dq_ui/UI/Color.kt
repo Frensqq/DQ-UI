@@ -21,6 +21,7 @@ object DiceQuestColors {
 
     // States
     val Success = Color(0xFF4CAF50)
+    val SuccessDark = Color(0xFF387A3A)
     val Error = Color(0xFFE53935)
     val Warning = Color(0xFFFFC107)
 
@@ -46,6 +47,13 @@ object DiceQuestGradients {
         colors = listOf(
             DiceQuestColors.Primary,
             DiceQuestColors.PrimaryLight
+        )
+    )
+
+    val PrimaryGreenButton = Brush.horizontalGradient(
+        colors = listOf(
+            DiceQuestColors.SuccessDark,
+            DiceQuestColors.Success
         )
     )
 
