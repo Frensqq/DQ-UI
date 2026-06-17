@@ -16,14 +16,3 @@ import androidx.compose.ui.unit.dp
 import com.example.dq_ui.R
 import com.example.dq_ui.UI.DiceQuestTheme
 
-@Composable
-fun iconBtn(onClick:() -> Unit, size: Int, icon: Painter,color: Color = DiceQuestTheme.colors.Primary) {
-
-    Icon(painter = icon,
-        contentDescription = null,
-        modifier = Modifier
-            .size(size.dp)
-            .clickable{onClick()},
-        tint = color
-        )
-}
