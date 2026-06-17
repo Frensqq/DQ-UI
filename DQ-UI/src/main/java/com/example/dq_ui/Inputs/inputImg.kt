@@ -29,6 +29,7 @@ import com.example.dq_ui.R
 import com.example.dq_ui.UI.DiceQuestTheme
 import com.example.dq_ui.icons.ExitBtn
 import com.example.dq_ui.icons.IconBtn
+import com.example.dq_ui.icons.InfoBtn
 
 @Composable
 fun InputsImage(onClick: () -> Unit,painter: Painter?, state: Boolean){
@@ -101,6 +102,8 @@ fun PreviewInputsImage(){
         ExitBtn({})
 
         IconBtn({},painterResource(R.drawable.first_player))
+
+        InfoBtn({})
 
     }
 

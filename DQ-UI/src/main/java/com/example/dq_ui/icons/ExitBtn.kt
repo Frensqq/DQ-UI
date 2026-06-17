@@ -3,6 +3,7 @@ package com.example.dq_ui.icons
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -25,7 +26,7 @@ fun ExitBtn(onClick:() -> Unit, size: Int = 32){
             painter = painterResource(R.drawable.cross),
             contentDescription = null,
             modifier = Modifier
-                .size(size.dp)
+                .fillMaxSize()
                 .clickable { onClick() },
             tint = DiceQuestTheme.colors.TextPrimary
         )
