@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +27,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.dq_ui.R
 import com.example.dq_ui.UI.DiceQuestTheme
+import com.example.dq_ui.icons.ExitBtn
+import com.example.dq_ui.icons.IconBtn
+import com.example.dq_ui.icons.InfoBtn
 
 @Composable
 fun InputsImage(onClick: () -> Unit,painter: Painter?, state: Boolean){
@@ -94,6 +98,12 @@ fun PreviewInputsImage(){
 
     Column(modifier = Modifier.padding(vertical = 150.dp)) {
         InputsImage({}, null, true)
+
+        ExitBtn({})
+
+        IconBtn({},painterResource(R.drawable.first_player))
+
+        InfoBtn({})
 
     }
 
