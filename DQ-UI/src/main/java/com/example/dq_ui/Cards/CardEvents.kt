@@ -38,7 +38,7 @@ fun CardEvents(
 
     Box(
         modifier = Modifier
-            .padding(horizontal = 20.dp, vertical = 50.dp)
+            .padding(horizontal = 30.dp, vertical = 50.dp)
     ) {
 
         Column(
@@ -103,7 +103,7 @@ fun CardEvents(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp),
-                style = DiceQuestTheme.typography.bodyLarge,
+                style = DiceQuestTheme.typography.bodySmall,
                 color = DiceQuestTheme.colors.TextSecondary,
                 textAlign = TextAlign.Center
             )
@@ -115,16 +115,16 @@ fun CardEvents(
         Box(
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .clip(RoundedCornerShape(20))
+                .clip(RoundedCornerShape(35))
                 .background(DiceQuestTheme.colors.Primary)
                 .border(
                     BorderStroke(
                         1.dp,
                         DiceQuestTheme.colors.PrimaryLight
                     ),
-                    RoundedCornerShape(20)
+                    RoundedCornerShape(35)
                 )
-                .padding(horizontal = 35.dp, vertical = 5.dp),
+                .padding(horizontal = 25.dp, vertical = 5.dp),
             contentAlignment = Alignment.Center
         ) {
 
