@@ -42,7 +42,6 @@ fun CardMenu(
 
         Box(
             modifier = Modifier
-                .padding(horizontal = 20.dp)
 
         ) {
 
