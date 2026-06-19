@@ -15,12 +15,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,6 +31,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,8 +41,10 @@ import com.example.dq_ui.Cards.CardEvents
 import com.example.dq_ui.UI.DiceQuestTheme
 import com.example.dq_ui.UI.SpacerH
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class DiceViewModel : ViewModel() {
+
     var diceValue by mutableStateOf(1)
         private set
 
@@ -49,35 +54,69 @@ class DiceViewModel : ViewModel() {
     var rotation by mutableStateOf(0f)
         private set
 
-    suspend fun rollDiceWithAnimation(onResult: (String) -> Unit) {
+    suspend fun rollDiceWithAnimation(
+        onResult: (Int) -> Unit
+    ) {
+
         isRolling = true
 
-        val steps = 6
-        val stepDelay = 150L
+        repeat(6) {
 
-        repeat(steps) { step ->
             rotation += 60f
             diceValue = (1..6).random()
-            delay(stepDelay)
+
+            delay(150)
         }
 
         rotation += 360f
+
         diceValue = (1..6).random()
+
         delay(200)
 
         isRolling = false
-        onResult(diceValue.toString())  // Возвращаем результат
+
+        onResult(diceValue)
     }
 }
 
 @Composable
-fun DiceWithAnimation(
-    value: Int,
-    rotation: Float,
-    isRolling: Boolean,
-    isEnabled: Boolean,
-    onClick: () -> Unit
+fun DiceWidget(
+    modifier: Modifier = Modifier,
+    viewModel: DiceViewModel = viewModel(),
+    isEnabled: Boolean = true,
+    onResult: (Int) -> Unit
 ) {
+
+    val diceValue by viewModel::diceValue
+    val isRolling by viewModel::isRolling
+    val rotation by viewModel::rotation
+
+    var triggerRoll by remember {
+        mutableStateOf(false)
+    }
+
+    LaunchedEffect(triggerRoll) {
+
+        if (triggerRoll) {
+
+            viewModel.rollDiceWithAnimation {
+
+                onResult(it)
+            }
+
+            triggerRoll = false
+        }
+    }
+
+    val animatedRotation by animateFloatAsState(
+        targetValue = rotation,
+        animationSpec = tween(
+            durationMillis = 350,
+            easing = FastOutSlowInEasing
+        ),
+        label = ""
+    )
 
     val diceFaces = mapOf(
         1 to "⚀",
@@ -88,247 +127,156 @@ fun DiceWithAnimation(
         6 to "⚅"
     )
 
-    val animatedRotation by animateFloatAsState(
-        targetValue = rotation,
-        animationSpec = tween(
-            durationMillis = 350,
-            easing = FastOutSlowInEasing
-        ),
-        label = "diceRotation"
-    )
-
     Box(
-        modifier = Modifier
-            .size(140.dp)
+        modifier = modifier
+            .size(110.dp)
             .shadow(
-                elevation = 12.dp,
-                shape = RoundedCornerShape(24.dp)
+                10.dp,
+                RoundedCornerShape(35.dp)
             )
-            .clip(RoundedCornerShape(24.dp))
+            .clip(RoundedCornerShape(35.dp))
             .background(
-                when {
-                    isRolling ->
-                        DiceQuestTheme.colors.Primary.copy(alpha = 0.15f)
-
-                    !isEnabled ->
-                        DiceQuestTheme.colors.SurfaceVariant.copy(alpha = 0.5f)
-
-                    else ->
-                        DiceQuestTheme.colors.Surface
-                }
+                if (isRolling)
+                    DiceQuestTheme.colors.Primary
+                else
+                    DiceQuestTheme.colors.Surface
             )
             .border(
                 BorderStroke(
                     2.dp,
-                    when {
-                        isRolling ->
-                            DiceQuestTheme.colors.Primary
-
-                        !isEnabled ->
-                            DiceQuestTheme.colors.TextSecondary.copy(alpha = 0.3f)
-
-                        else ->
-                            DiceQuestTheme.colors.PrimaryDark.copy(alpha = 0.4f)
-                    }
+                    DiceQuestTheme.colors.Primary
                 ),
-                RoundedCornerShape(24.dp)
+                RoundedCornerShape(35.dp)
             )
             .rotate(animatedRotation)
             .clickable(
                 enabled = isEnabled && !isRolling
             ) {
-                onClick()
+
+                triggerRoll = true
             },
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.TopCenter
     ) {
 
         Text(
             text = if (isRolling)
-                "?"
+                "•"
             else
-                diceFaces[value] ?: "?",
-            fontSize = if (isRolling) 36.sp else 72.sp,
-            fontWeight = FontWeight.Bold,
+                diceFaces[diceValue] ?: "•",
+            lineHeight = 100.sp,
+            fontSize = 80.sp,
             color = DiceQuestTheme.colors.TextPrimary
         )
     }
 }
 
-@Composable
-fun DiceScreen(
-    viewModel: DiceViewModel = viewModel(),
-
-    isEnabled: Boolean = true,
-
-    onResult: (Int) -> Unit
-) {
-
-    val diceValue by viewModel::diceValue
-    val isRolling by viewModel::isRolling
-    val rotation by viewModel::rotation
-
-    var lastResult by remember {
-        mutableStateOf<Int?>(null)
-    }
-
-    var triggerRoll by remember {
-        mutableStateOf(false)
-    }
-
-    LaunchedEffect(triggerRoll) {
-
-        if (triggerRoll) {
-
-            viewModel.rollDiceWithAnimation { result ->
-
-                val value = result.toInt()
-
-                lastResult = value
-
-                onResult(value)
-            }
-
-            triggerRoll = false
-        }
-    }
-
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
-
-        Column(
-            modifier = Modifier.align(Alignment.Center),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-
-            DiceWithAnimation(
-                value = diceValue,
-                rotation = rotation,
-                isRolling = isRolling,
-                isEnabled = isEnabled,
-                onClick = {
-
-                    if (
-                        isEnabled &&
-                        !isRolling
-                    ) {
-                        triggerRoll = true
-                    }
-                }
-            )
-
-            SpacerH(12)
-
-            Text(
-                text = when {
-                    isRolling -> "Бросаем кубик..."
-                    !isEnabled -> "Ожидание других игроков"
-                    else -> "Нажмите для броска"
-                },
-                style = DiceQuestTheme.typography.bodyMedium,
-                color = DiceQuestTheme.colors.TextSecondary
-            )
-        }
-
-        // Модальное окно результата
-        lastResult?.let { result ->
-
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black.copy(alpha = 0.45f))
-                    .clickable {
-                        lastResult = null
-                    },
-                contentAlignment = Alignment.Center
-            ) {
-
-                Box(
-                    modifier = Modifier.clickable(
-                        indication = null,
-                        interactionSource = remember {
-                            MutableInteractionSource()
-                        }
-                    ) { }
-                ) {
-
-                    CardEvents(
-                        text = "Результат",
-                        nameEvent = "Ваш результат $result",
-                        textIventPreview = result.toString()
-                    )
-                }
-            }
-        }
-    }
-}
 
 @Composable
-fun DiceResultCard(
+fun DiceResultDialog(
     result: Int,
-    modifier: Modifier = Modifier
+    onDismiss: () -> Unit
 ) {
+
     Box(
-        modifier = modifier
-            .padding(top = 24.dp)
-            .clip(RoundedCornerShape(20.dp))
-            .background(DiceQuestTheme.colors.Surface)
-            .border(
-                BorderStroke(
-                    1.dp,
-                    DiceQuestTheme.colors.Primary.copy(alpha = 0.4f)
-                ),
-                RoundedCornerShape(20.dp)
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                Color.Black.copy(alpha = 0.45f)
             )
-            .padding(
-                horizontal = 24.dp,
-                vertical = 16.dp
-            ),
+            .clickable {
+                onDismiss()
+            },
         contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = "Выпало $result",
-            style = DiceQuestTheme.typography.titleMedium,
-            color = DiceQuestTheme.colors.TextPrimary
-        )
+
+        Box(
+            modifier = Modifier.clickable(
+                indication = null,
+                interactionSource = remember {
+                    MutableInteractionSource()
+                }
+            ) {}
+        ) {
+
+            CardEvents(
+                text = "Результат",
+                nameEvent = "Ваш результат $result",
+                textIventPreview = result.toString()
+            )
+        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewDiceScreen() {
+fun PreviewDiceWidgetWithResult() {
 
-    var result by remember {
-        mutableStateOf<Int?>(null)
-    }
+    var result by remember { mutableStateOf<Int?>(null) }
+
+    var isRolling by remember { mutableStateOf(false) }
+
+    val scope = rememberCoroutineScope()
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(DiceQuestTheme.colors.Background),
+            .background(DiceQuestTheme.colors.Background)
+            .padding(24.dp),
         contentAlignment = Alignment.Center
     ) {
 
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
 
-            DiceScreen(
+            DiceWidget(
                 isEnabled = true,
-                onResult = {
-                    result = it
+                onResult = { value ->
+                    result = value
                 }
             )
 
-            result?.let {
-                Text(
-                    text = "Последний результат: $it",
-                    style = DiceQuestTheme.typography.bodyLarge,
-                    color = DiceQuestTheme.colors.TextPrimary,
-                    modifier = Modifier.padding(top = 16.dp)
-                )
+            SpacerH(16)
+
+            Text(
+                text = "Нажмите на кубик",
+                style = DiceQuestTheme.typography.bodyMedium,
+                color = DiceQuestTheme.colors.TextSecondary
+            )
+
+            Text(
+                text = "Предыдущий результат $result",
+                style = DiceQuestTheme.typography.bodyMedium,
+                color = DiceQuestTheme.colors.TextSecondary
+            )
+
+            SpacerH(24)
+
+            Button(
+                onClick = {
+                    // имитация броска через кнопку (для Preview)
+                    scope.launch {
+                        isRolling = true
+                        delay(800)
+                        result = (1..6).random()
+                        isRolling = false
+                    }
+                }
+            ) {
+                Text("Simulate Roll")
             }
+        }
+
+        // 🔥 МОДАЛКА РЕЗУЛЬТАТА
+        result?.let { value ->
+
+            DiceResultDialog(
+                result = value,
+                onDismiss = {
+                    result = null
+                }
+            )
         }
     }
 }
