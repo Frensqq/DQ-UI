@@ -157,7 +157,7 @@ fun PreviewCardEvents(){
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center) {
 
-        CardEvents(text = "Результат", nameEvent = "Ваш ход на 25 клетку", textIventPreview = "-5")
+        CardEvents(text = "Результат", nameEvent = "Ваш результат 5", textIventPreview = "5")
 
     }
 }
