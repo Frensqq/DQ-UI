@@ -37,51 +37,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.dq_ui.Cards.CardEvents
 import com.example.dq_ui.UI.DiceQuestTheme
 import com.example.dq_ui.UI.SpacerH
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class DiceViewModel : ViewModel() {
-
-    var diceValue by mutableStateOf(1)
-        private set
-
-    var isRolling by mutableStateOf(false)
-        private set
-
-    var rotation by mutableStateOf(0f)
-        private set
-
-    suspend fun rollDiceWithAnimation(
-        onResult: (Int) -> Unit
-    ) {
-
-        isRolling = true
-
-        repeat(6) {
-
-            rotation += 60f
-            diceValue = (1..6).random()
-
-            delay(150)
-        }
-
-        rotation += 360f
-
-        diceValue = (1..6).random()
-
-        delay(200)
-
-        isRolling = false
-
-        onResult(diceValue)
-    }
-}
 
 @Composable
-fun DiceWidget(
+fun Dice(
     modifier: Modifier = Modifier,
     viewModel: DiceViewModel = viewModel(),
     isEnabled: Boolean = true,
@@ -170,43 +133,6 @@ fun DiceWidget(
     }
 }
 
-
-@Composable
-fun DiceResultDialog(
-    result: Int,
-    onDismiss: () -> Unit
-) {
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                Color.Black.copy(alpha = 0.45f)
-            )
-            .clickable {
-                onDismiss()
-            },
-        contentAlignment = Alignment.Center
-    ) {
-
-        Box(
-            modifier = Modifier.clickable(
-                indication = null,
-                interactionSource = remember {
-                    MutableInteractionSource()
-                }
-            ) {}
-        ) {
-
-            CardEvents(
-                text = "Результат",
-                nameEvent = "Ваш результат $result",
-                textIventPreview = result.toString()
-            )
-        }
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 fun PreviewDiceWidgetWithResult() {
@@ -230,7 +156,7 @@ fun PreviewDiceWidgetWithResult() {
             verticalArrangement = Arrangement.Center
         ) {
 
-            DiceWidget(
+            Dice(
                 isEnabled = true,
                 onResult = { value ->
                     result = value
