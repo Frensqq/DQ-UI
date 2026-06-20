@@ -37,7 +37,8 @@ fun CardUser(avatar: Painter? = null, name: String = "User", onClickIcon: () -> 
                 modifier = Modifier
                     .size(50.dp)
                     .clip(CircleShape)
-                    .background(DiceQuestTheme.colors.Surface)
+                    .background(DiceQuestTheme.colors.Surface),
+                contentAlignment = Alignment.Center
             ) {
                 if (avatar != null) {
                     Image(
