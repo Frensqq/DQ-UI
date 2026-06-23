@@ -53,11 +53,11 @@ fun CardUser(avatar: Painter? = null, name: String = "User", onClickIcon: () -> 
             Text(
                 "Привет, $name!",
                 style = DiceQuestTheme.typography.titleLarge,
-                color = DiceQuestTheme.colors.TextSecondary
+                color = DiceQuestTheme.colors.TextPrimary
             )
         }
 
-        IconBtn(onClickIcon, icon)
+        IconBtn(onClickIcon, icon, color = DiceQuestTheme.colors.TextPrimary)
     }
 }
 

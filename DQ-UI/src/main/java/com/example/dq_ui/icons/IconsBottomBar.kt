@@ -71,8 +71,8 @@ fun BottomNavigationPanel(
                 .background(
                     Brush.verticalGradient(
                 colors = listOf(
-                    DiceQuestTheme.colors.PrimaryDark,
-                    DiceQuestTheme.colors.SurfaceVariant
+                    DiceQuestTheme.colors.Secondary,
+                    DiceQuestTheme.colors.SurfaceVariant,
                 )),
                     shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
                 )
@@ -141,8 +141,7 @@ fun BottomNavItem(
     }
 }
 
-
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun PreviewBottomNavigationPanel() {
     var selectedItem by remember { mutableStateOf<BottomNavItem>(BottomNavItem.Home) }

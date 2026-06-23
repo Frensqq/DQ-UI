@@ -33,7 +33,7 @@ fun Header(text: String,
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (leadingIcon != null) {
-            IconBtn(leadingOnClick, leadingIcon,  color = DiceQuestTheme.colors.TextPrimary)
+            IconBtn(leadingOnClick, leadingIcon,  color = DiceQuestTheme.colors.TextPrimary, size = 24)
         } else {
             SpacerW(32)
         }
@@ -41,7 +41,7 @@ fun Header(text: String,
         Text(text = text, style = DiceQuestTheme.typography.headlineLarge, color = DiceQuestTheme.colors.TextPrimary )
 
         if (trailingIcon != null) {
-            IconBtn(trailingOnClick, trailingIcon, color = DiceQuestTheme.colors.TextPrimary)
+            IconBtn(trailingOnClick, trailingIcon, color = DiceQuestTheme.colors.TextPrimary, size = 24)
         } else {
             SpacerW(32)
         }

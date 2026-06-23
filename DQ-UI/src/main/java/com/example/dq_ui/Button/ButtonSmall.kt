@@ -3,6 +3,7 @@ package com.example.dq_ui.Button
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -36,6 +37,7 @@ fun ButtonSmall(onClick: () -> Unit, text: String, enabled: Boolean = true, type
             ),
         enabled = enabled,
         shape = RoundedCornerShape(17.dp),
+        contentPadding = PaddingValues(2.dp),
         colors = if (type) {
             ButtonDefaults.buttonColors(
                 containerColor = DiceQuestTheme.colors.Error,
