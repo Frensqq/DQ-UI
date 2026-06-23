@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
@@ -59,6 +60,7 @@ fun BottomNavigationPanel(
         modifier = Modifier
             .fillMaxWidth()
             .height(90.dp)
+
     ) {
 
         Row(
@@ -67,7 +69,11 @@ fun BottomNavigationPanel(
                 .height(80.dp)
                 .align(Alignment.BottomCenter)
                 .background(
-                    color = Color.White,
+                    Brush.verticalGradient(
+                colors = listOf(
+                    DiceQuestTheme.colors.PrimaryDark,
+                    DiceQuestTheme.colors.SurfaceVariant
+                )),
                     shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
                 )
                 .padding(horizontal = 16.dp),
@@ -121,7 +127,7 @@ fun BottomNavItem(
             painter = painterResource(item.icon),
             contentDescription = item.title,
             modifier = Modifier.size(35.dp),
-            tint = if (selected) DiceQuestTheme.colors.Primary else DiceQuestTheme.colors.TextSecondary
+            tint = if (selected) DiceQuestTheme.colors.PrimaryLight else DiceQuestTheme.colors.TextSecondary
         )
 
         Text(
@@ -129,7 +135,7 @@ fun BottomNavItem(
             fontSize = 12.sp,
             fontWeight = FontWeight.Normal,
             style = DiceQuestTheme.typography.bodySmall,
-            color = if (selected) DiceQuestTheme.colors.Primary else DiceQuestTheme.colors.TextSecondary,
+            color = if (selected) DiceQuestTheme.colors.PrimaryLight else DiceQuestTheme.colors.TextSecondary,
             modifier = Modifier.padding(top = 4.dp)
         )
     }

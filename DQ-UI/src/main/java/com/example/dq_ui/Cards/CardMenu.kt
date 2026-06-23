@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,15 +37,16 @@ fun CardMenu(
 
     nameEvent: String,
     descriptionEvent: String,
-    text: String = "Событие",
+    onClick:() -> Unit,
     imageIventPreview: Painter = painterResource(R.drawable.bonus)
 ) {
 
         Box(
-            modifier = Modifier
+            modifier = Modifier.clickable{
+                onClick()
+            }
 
         ) {
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -117,7 +119,8 @@ fun PreviewCard(){
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center) {
 
-        CardMenu("Быстрая игра", "Игра с друзьями онлайн (2-4 игрока)")
+        CardMenu("Быстрая игра", "Игра с друзьями онлайн (2-4 игрока)",
+            {})
 
     }
 }
