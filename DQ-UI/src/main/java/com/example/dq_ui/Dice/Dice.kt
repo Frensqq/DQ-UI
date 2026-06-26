@@ -48,26 +48,19 @@ fun Dice(
     modifier: Modifier = Modifier,
     viewModel: DiceViewModel = viewModel(),
     isEnabled: Boolean = true,
-    onResult: (Int) -> Unit
+    onRollComplete: (Int) -> Unit  // Передаём результат в GameEngine
 ) {
-
     val diceValue by viewModel::diceValue
     val isRolling by viewModel::isRolling
     val rotation by viewModel::rotation
 
-    var triggerRoll by remember {
-        mutableStateOf(false)
-    }
+    var triggerRoll by remember { mutableStateOf(false) }
 
     LaunchedEffect(triggerRoll) {
-
         if (triggerRoll) {
-
-            viewModel.rollDiceWithAnimation {
-
-                onResult(it)
+            viewModel.rollDiceWithAnimation { result ->
+                onRollComplete(result)
             }
-
             triggerRoll = false
         }
     }
@@ -93,39 +86,25 @@ fun Dice(
     Box(
         modifier = modifier
             .size(110.dp)
-            .shadow(
-                10.dp,
-                RoundedCornerShape(35.dp)
-            )
+            .shadow(10.dp, RoundedCornerShape(35.dp))
             .clip(RoundedCornerShape(35.dp))
             .background(
-                if (isRolling)
-                    DiceQuestTheme.colors.Primary
-                else
-                    DiceQuestTheme.colors.Surface
+                if (isRolling) DiceQuestTheme.colors.Primary
+                else DiceQuestTheme.colors.Surface
             )
             .border(
-                BorderStroke(
-                    2.dp,
-                    DiceQuestTheme.colors.Primary
-                ),
+                BorderStroke(2.dp, DiceQuestTheme.colors.Primary),
                 RoundedCornerShape(35.dp)
             )
             .rotate(animatedRotation)
             .clickable(
-                enabled = isEnabled && !isRolling
-            ) {
-
-                triggerRoll = true
-            },
+                enabled = isEnabled && !isRolling,
+                onClick = { triggerRoll = true }
+            ),
         contentAlignment = Alignment.TopCenter
     ) {
-
         Text(
-            text = if (isRolling)
-                "•"
-            else
-                diceFaces[diceValue] ?: "•",
+            text = if (isRolling) "•" else diceFaces[diceValue] ?: "•",
             lineHeight = 100.sp,
             fontSize = 80.sp,
             color = DiceQuestTheme.colors.TextPrimary
@@ -133,76 +112,76 @@ fun Dice(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewDiceWidgetWithResult() {
-
-    var result by remember { mutableStateOf<Int?>(null) }
-
-    var isRolling by remember { mutableStateOf(false) }
-
-    val scope = rememberCoroutineScope()
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(DiceQuestTheme.colors.Background)
-            .padding(24.dp),
-        contentAlignment = Alignment.Center
-    ) {
-
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-
-            Dice(
-                isEnabled = true,
-                onResult = { value ->
-                    result = value
-                }
-            )
-
-            SpacerH(16)
-
-            Text(
-                text = "Нажмите на кубик",
-                style = DiceQuestTheme.typography.bodyMedium,
-                color = DiceQuestTheme.colors.TextSecondary
-            )
-
-            Text(
-                text = "Предыдущий результат $result",
-                style = DiceQuestTheme.typography.bodyMedium,
-                color = DiceQuestTheme.colors.TextSecondary
-            )
-
-            SpacerH(24)
-
-            Button(
-                onClick = {
-                    // имитация броска через кнопку (для Preview)
-                    scope.launch {
-                        isRolling = true
-                        delay(800)
-                        result = (1..6).random()
-                        isRolling = false
-                    }
-                }
-            ) {
-                Text("Simulate Roll")
-            }
-        }
-
-        // 🔥 МОДАЛКА РЕЗУЛЬТАТА
-        result?.let { value ->
-
-            DiceResultDialog(
-                result = value,
-                onDismiss = {
-                    result = null
-                }
-            )
-        }
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewDiceWidgetWithResult() {
+//
+//    var result by remember { mutableStateOf<Int?>(null) }
+//
+//    var isRolling by remember { mutableStateOf(false) }
+//
+//    val scope = rememberCoroutineScope()
+//
+//    Box(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .background(DiceQuestTheme.colors.Background)
+//            .padding(24.dp),
+//        contentAlignment = Alignment.Center
+//    ) {
+//
+//        Column(
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//            verticalArrangement = Arrangement.Center
+//        ) {
+//
+//            Dice(
+//                isEnabled = true,
+//                onResult = { value ->
+//                    result = value
+//                }
+//            )
+//
+//            SpacerH(16)
+//
+//            Text(
+//                text = "Нажмите на кубик",
+//                style = DiceQuestTheme.typography.bodyMedium,
+//                color = DiceQuestTheme.colors.TextSecondary
+//            )
+//
+//            Text(
+//                text = "Предыдущий результат $result",
+//                style = DiceQuestTheme.typography.bodyMedium,
+//                color = DiceQuestTheme.colors.TextSecondary
+//            )
+//
+//            SpacerH(24)
+//
+//            Button(
+//                onClick = {
+//                    // имитация броска через кнопку (для Preview)
+//                    scope.launch {
+//                        isRolling = true
+//                        delay(800)
+//                        result = (1..6).random()
+//                        isRolling = false
+//                    }
+//                }
+//            ) {
+//                Text("Simulate Roll")
+//            }
+//        }
+//
+//        // 🔥 МОДАЛКА РЕЗУЛЬТАТА
+//        result?.let { value ->
+//
+//            DiceResultDialog(
+//                result = value,
+//                onDismiss = {
+//                    result = null
+//                }
+//            )
+//        }
+//    }
+//}

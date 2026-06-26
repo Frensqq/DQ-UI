@@ -17,32 +17,31 @@ fun DiceResultDialog(
     result: Int,
     onDismiss: () -> Unit
 ) {
-
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                Color.Black.copy(alpha = 0.45f)
-            )
-            .clickable {
-                onDismiss()
-            },
+            .background(Color.Black.copy(alpha = 0.45f))
+            .clickable { onDismiss() },
         contentAlignment = Alignment.Center
     ) {
-
         Box(
             modifier = Modifier.clickable(
                 indication = null,
-                interactionSource = remember {
-                    MutableInteractionSource()
-                }
+                interactionSource = remember { MutableInteractionSource() }
             ) {}
         ) {
-
             CardEvents(
-                text = "Результат",
-                nameEvent = "Ваш результат $result",
-                textIventPreview = result.toString()
+                text = "Результат броска",
+                nameEvent = "Выпало $result",
+                textIventPreview = when (result) {
+                    1 -> "⚀ 1"
+                    2 -> "⚁ 2"
+                    3 -> "⚂ 3"
+                    4 -> "⚃ 4"
+                    5 -> "⚄ 5"
+                    6 -> "⚅ 6"
+                    else -> "$result"
+                }
             )
         }
     }
