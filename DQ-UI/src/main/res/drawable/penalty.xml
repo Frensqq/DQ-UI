@@ -1,0 +1,26 @@
+<!--
+  ~ Copyright (C) 2026 The Android Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:height="10dp" android:viewportHeight="24" android:viewportWidth="24" android:width="10dp">
+      
+    <group>
+            
+        <clip-path android:pathData="M0,0h24v24h-24z"/>
+            
+        <path android:fillColor="#374957" android:pathData="M19.5,4H15.449C15.329,2.903 14.808,1.889 13.988,1.151C13.167,0.413 12.104,0.003 11,0L4.5,0C3.307,0.001 2.163,0.476 1.319,1.319C0.476,2.163 0.001,3.307 0,4.5L0,22.5C0,22.898 0.158,23.279 0.439,23.561C0.721,23.842 1.102,24 1.5,24C1.898,24 2.279,23.842 2.561,23.561C2.842,23.279 3,22.898 3,22.5V14H9.551C9.671,15.097 10.192,16.111 11.012,16.849C11.833,17.587 12.896,17.997 14,18H19.5C20.693,17.999 21.837,17.524 22.681,16.681C23.524,15.837 23.999,14.693 24,13.5V8.5C23.999,7.307 23.524,6.163 22.681,5.319C21.837,4.476 20.693,4.001 19.5,4ZM3,4.5C3,4.102 3.158,3.721 3.439,3.439C3.721,3.158 4.102,3 4.5,3H11C11.398,3 11.779,3.158 12.061,3.439C12.342,3.721 12.5,4.102 12.5,4.5V9.5C12.5,9.898 12.342,10.279 12.061,10.561C11.779,10.842 11.398,11 11,11H3V4.5ZM21,13.5C21,13.898 20.842,14.279 20.561,14.561C20.279,14.842 19.898,15 19.5,15H14C13.641,14.998 13.294,14.868 13.023,14.633C12.752,14.397 12.574,14.072 12.522,13.717C13.392,13.406 14.144,12.833 14.677,12.079C15.21,11.324 15.497,10.424 15.5,9.5V7H19.5C19.898,7 20.279,7.158 20.561,7.439C20.842,7.721 21,8.102 21,8.5V13.5Z"/>
+          
+    </group>
+    
+</vector>

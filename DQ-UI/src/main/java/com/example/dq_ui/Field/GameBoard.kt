@@ -57,11 +57,13 @@ fun PreviewGameBoard70Fixed() {
                 index = index + 1,
                 color = when {
                     index % 11 == 0 ->
-                        DiceQuestTheme.colors.Primary.copy(alpha = 0.2f)
-
+                        DiceQuestTheme.colors.Success.copy(alpha = 0.2f)
                     index % 5 == 0 ->
-                        DiceQuestTheme.colors.PrimaryDark.copy(alpha = 0.15f)
-
+                        DiceQuestTheme.colors.Error.copy(alpha = 0.2f)
+                    index % 6 == 0 ->
+                        DiceQuestTheme.colors.SurfaceLight.copy(alpha = 0.2f)
+                    index % 13 == 0 ->
+                        DiceQuestTheme.colors.Coin.copy(alpha = 0.2f)
                     else ->
                         DiceQuestTheme.colors.Surface
                 },

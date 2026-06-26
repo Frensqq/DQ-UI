@@ -10,6 +10,7 @@ object DiceQuestColors {
     val Background = Color(0xFF070B1D)
     val Surface = Color(0xFF10162F)
     val SurfaceVariant = Color(0xFF171E3F)
+    val SurfaceLight = Color(0xFF2196F3)
 
     // Primary
     val Primary = Color(0xFF8B3DFF)
