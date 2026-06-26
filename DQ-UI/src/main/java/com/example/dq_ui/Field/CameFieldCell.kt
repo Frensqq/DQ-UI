@@ -108,7 +108,7 @@ fun GameFieldCell(
         if (cell.tokens.isNotEmpty()) {
             TokenGrid(
                 tokens = cell.tokens,
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier.padding(2.dp).align(Alignment.BottomCenter)
             )
         }
     }
