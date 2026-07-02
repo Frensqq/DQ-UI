@@ -105,8 +105,8 @@ fun Dice(
     ) {
         Text(
             text = if (isRolling) "•" else diceFaces[diceValue] ?: "•",
-            lineHeight = 100.sp,
-            fontSize = 80.sp,
+            lineHeight = 82.sp,
+            fontSize = 75.sp,
             color = DiceQuestTheme.colors.TextPrimary
         )
     }
